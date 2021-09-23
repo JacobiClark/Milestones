@@ -6,7 +6,6 @@ import "./App.css";
 function App() {
   const [milestoneData, setMilestoneData] = useState([]);
   const [completionDateData, setcompletionDateData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -39,7 +38,7 @@ function App() {
     for (let i = 0; i < selectedMilestones.length; i++) {
       formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
     }
-    post.Milestone = formattedSelectedMilestones;
+    post["Selected milestone(s)"] = formattedSelectedMilestones;
     const selectedCompletionDates = completionDateData.filter(
       (completionDate) => completionDate.isSelected === true
     );
@@ -47,7 +46,7 @@ function App() {
     for (let i = 0; i < selectedCompletionDates.length; i++) {
       formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
     }
-    post["Completion date"] = formattedCompletionDates;
+    post["Selected Completion Date"] = formattedCompletionDates;
     console.log("post initiated");
     fetch("http://localhost:5000/milestones", {
       method: "post",
@@ -89,36 +88,19 @@ function App() {
       } catch (error) {
         setIsError(true);
       }
-
       setIsLoading(false);
     };
-
     fetchData();
   }, []);
-  const post = {};
-  const selectedMilestones = milestoneData.filter(
-    (milestone) => milestone.isSelected === true
-  );
-  const formattedSelectedMilestones = {};
-  for (let i = 0; i < selectedMilestones.length; i++) {
-    formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
-  }
-  post.Milestone = formattedSelectedMilestones;
-  const selectedCompletionDates = completionDateData.filter(
-    (completionDate) => completionDate.isSelected === true
-  );
-  const formattedCompletionDates = {};
-  for (let i = 0; i < selectedCompletionDates.length; i++) {
-    formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
-  }
-  post["Completion date"] = formattedCompletionDates;
-  console.log(post);
+
   if (isError) {
     return <p>error</p>;
   }
+
   if (isLoading) {
     return <p>loading...</p>;
   }
+
   return (
     <Box>
       <Flex>

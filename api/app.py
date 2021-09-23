@@ -9,14 +9,11 @@ CORS(app) #comment this on deployment
 @app.route("/milestones", methods = ['GET', 'POST'])
 def upload_milestones():
     if request.method == 'GET':
-        df = pd.read_excel('milestones.xlsx').to_json()
-        print(df)
-        return df
+        milestones = pd.read_excel('milestones.xlsx').to_json()
+        return milestones
     
     if request.method == 'POST':
-        print(request)
         content = request.json
-        te = pd.DataFrame.from_dict(content).to_excel("output.xlsx", index=False)
-        print(te)
+        pd.DataFrame.from_dict(content).to_excel("my_selected_milestones.xlsx", index=False)
         return content
 
