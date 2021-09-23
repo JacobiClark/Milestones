@@ -16,28 +16,35 @@ function App() {
   const handleMilestoneButtonClick = (e) => {
     e.preventDefault();
     let mapped = milestoneData.map((milestone) => {
-      return milestone.milestone == e.target.value
+      return milestone.milestone === e.target.value
         ? { ...milestone, isSelected: !milestone.isSelected }
         : { ...milestone };
     });
+    console.log(mapped);
     setMilestoneData(mapped);
-    console.log(e.target.value);
   };
 
   const handleCompletionDateButtonClick = (e) => {
     e.preventDefault();
     setSelectedCompletionDates({ selectedCompletionDate: e.target.value });
   };
+  console.log(selectedMilestones);
 
   const handleSubmit = () => {
     console.log("post initiated");
     fetch("http://localhost:5000/milestones", {
       method: "post",
       headers: {
-        Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ a: 7, str: "Some string: &=&" }),
+      body: JSON.stringify({
+        Milestone: { 0: "Milestone 69", 1: "Milestone 2" },
+        "Completion date": {
+          0: "2022-01-15",
+          1: "2022-02-15",
+          2: "2022-03-15",
+        },
+      }),
     })
       .then((res) => res.json())
       .then((res) => console.log(res));
@@ -51,15 +58,20 @@ function App() {
       try {
         const response = await fetch("http://localhost:5000/milestones");
         const responseJson = await response.json();
-        let milestoneData = Object.values(responseJson.Milestone);
-        milestoneData = milestoneData.map((milestone) => {
+        console.log(responseJson);
+        let milestoneValues = Object.values(responseJson.Milestone);
+        milestoneValues = milestoneValues.map((milestone) => {
           let milestoneObj = {
             milestone: milestone,
             isSelected: false,
           };
           return milestoneObj;
         });
-        setMilestoneData(milestoneData);
+        setMilestoneData(milestoneValues);
+        let completionDateValues = Object.values(
+          responseJson["Completion date"]
+        );
+
         const completionDateData = Object.values(
           responseJson["Completion date"]
         );
@@ -108,7 +120,7 @@ function App() {
           </Button>
         ))}
       </Flex>
-      <Button onclick={handleSubmit}>submit</Button>
+      <Button onClick={handleSubmit}>submit</Button>
     </Box>
   );
 }
