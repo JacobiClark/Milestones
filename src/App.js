@@ -4,9 +4,6 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import "./App.css";
 
 function App() {
-  const [selectedMilestones, setSelectedMilestones] = useState([]);
-  const [selectedCompletionDates, setSelectedCompletionDates] = useState({});
-
   const [milestoneData, setMilestoneData] = useState([]);
   const [completionDateData, setcompletionDateData] = useState([]);
 
@@ -20,34 +17,45 @@ function App() {
         ? { ...milestone, isSelected: !milestone.isSelected }
         : { ...milestone };
     });
-    console.log(mapped);
     setMilestoneData(mapped);
   };
 
   const handleCompletionDateButtonClick = (e) => {
     e.preventDefault();
-    setSelectedCompletionDates({ selectedCompletionDate: e.target.value });
+    let mappeds = completionDateData.map((completionDate) => {
+      return completionDate.completionDate === e.target.value
+        ? { ...completionDate, isSelected: !completionDate.isSelected }
+        : { ...completionDate, isSelected: false };
+    });
+    setcompletionDateData(mappeds);
   };
-  console.log(selectedMilestones);
 
   const handleSubmit = () => {
+    const post = {};
+    const selectedMilestones = milestoneData.filter(
+      (milestone) => milestone.isSelected === true
+    );
+    const formattedSelectedMilestones = {};
+    for (let i = 0; i < selectedMilestones.length; i++) {
+      formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
+    }
+    post.Milestone = formattedSelectedMilestones;
+    const selectedCompletionDates = completionDateData.filter(
+      (completionDate) => completionDate.isSelected === true
+    );
+    const formattedCompletionDates = {};
+    for (let i = 0; i < selectedCompletionDates.length; i++) {
+      formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
+    }
+    post["Completion date"] = formattedCompletionDates;
     console.log("post initiated");
     fetch("http://localhost:5000/milestones", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        Milestone: { 0: "Milestone 69", 1: "Milestone 2" },
-        "Completion date": {
-          0: "2022-01-15",
-          1: "2022-02-15",
-          2: "2022-03-15",
-        },
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+      body: JSON.stringify(post),
+    }).then((res) => res.json());
   };
 
   useEffect(() => {
@@ -58,7 +66,6 @@ function App() {
       try {
         const response = await fetch("http://localhost:5000/milestones");
         const responseJson = await response.json();
-        console.log(responseJson);
         let milestoneValues = Object.values(responseJson.Milestone);
         milestoneValues = milestoneValues.map((milestone) => {
           let milestoneObj = {
@@ -71,11 +78,14 @@ function App() {
         let completionDateValues = Object.values(
           responseJson["Completion date"]
         );
-
-        const completionDateData = Object.values(
-          responseJson["Completion date"]
-        );
-        setcompletionDateData(completionDateData);
+        completionDateValues = completionDateValues.map((completionDate) => {
+          let completionDateObj = {
+            completionDate: completionDate,
+            isSelected: false,
+          };
+          return completionDateObj;
+        });
+        setcompletionDateData(completionDateValues);
       } catch (error) {
         setIsError(true);
       }
@@ -85,7 +95,24 @@ function App() {
 
     fetchData();
   }, []);
-
+  const post = {};
+  const selectedMilestones = milestoneData.filter(
+    (milestone) => milestone.isSelected === true
+  );
+  const formattedSelectedMilestones = {};
+  for (let i = 0; i < selectedMilestones.length; i++) {
+    formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
+  }
+  post.Milestone = formattedSelectedMilestones;
+  const selectedCompletionDates = completionDateData.filter(
+    (completionDate) => completionDate.isSelected === true
+  );
+  const formattedCompletionDates = {};
+  for (let i = 0; i < selectedCompletionDates.length; i++) {
+    formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
+  }
+  post["Completion date"] = formattedCompletionDates;
+  console.log(post);
   if (isError) {
     return <p>error</p>;
   }
@@ -108,15 +135,13 @@ function App() {
       <Flex>
         {completionDateData.map((completionDate) => (
           <Button
-            value={completionDate}
+            value={completionDate.completionDate}
             onClick={handleCompletionDateButtonClick}
             colorScheme={
-              selectedCompletionDates.selectedCompletionDate === completionDate
-                ? "teal"
-                : "facebook"
+              completionDate.isSelected === true ? "teal" : "facebook"
             }
           >
-            {completionDate}
+            {completionDate.completionDate}
           </Button>
         ))}
       </Flex>
