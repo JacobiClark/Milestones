@@ -13,9 +13,9 @@ def upload_milestones():
         return milestones
     
     if request.method == 'POST':
-        content = request.json
-        pd.DataFrame.from_dict(content).to_excel("my_selected_milestones.xlsx", index=False)
-        return content
+        selected_milestones = request.json
+        pd.DataFrame.from_dict(selected_milestones).to_excel("my_selected_milestones.xlsx", index=False)
+        return selected_milestones
 
 if __name__ == "__main__":
     app.run()

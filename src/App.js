@@ -11,30 +11,32 @@ function App() {
 
   const handleMilestoneButtonClick = (e) => {
     e.preventDefault();
-    let mapped = milestoneData.map((milestone) => {
+    let updatedMilestones = milestoneData.map((milestone) => {
       return milestone.milestone === e.target.value
         ? { ...milestone, isSelected: !milestone.isSelected }
         : { ...milestone };
     });
-    setMilestoneData(mapped);
+    setMilestoneData(updatedMilestones);
   };
 
   const handleCompletionDateButtonClick = (e) => {
     e.preventDefault();
-    let mappeds = completionDateData.map((completionDate) => {
+    const updatedCompletionDates = completionDateData.map((completionDate) => {
       return completionDate.completionDate === e.target.value
         ? { ...completionDate, isSelected: !completionDate.isSelected }
         : { ...completionDate, isSelected: false };
     });
-    setcompletionDateData(mappeds);
+    setcompletionDateData(updatedCompletionDates);
   };
 
   const handleDownload = () => {
+    //Create obj which will contain post data
     const selectedMilestonePost = {};
     const selectedMilestones = milestoneData.filter(
       (milestone) => milestone.isSelected === true
     );
     const formattedSelectedMilestones = {};
+    //Create indexed selected milestone objects
     for (let i = 0; i < selectedMilestones.length; i++) {
       formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
     }
@@ -45,27 +47,35 @@ function App() {
       (completionDate) => completionDate.isSelected === true
     );
     const formattedCompletionDates = {};
+    //Create indexed selected completion date objects
     for (let i = 0; i < selectedCompletionDates.length; i++) {
       formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
     }
     selectedMilestonePost[
       "Selected Completion Date"
     ] = formattedCompletionDates;
-    console.log("post initiated");
+
+    //Make post request to back-end
     fetch("http://localhost:5000/milestones", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(selectedMilestonePost),
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
       setIsLoading(true);
-
+      //Make fetch request to back-end
       try {
         const response = await fetch("http://localhost:5000/milestones");
         const responseJson = await response.json();
@@ -98,11 +108,11 @@ function App() {
   }, []);
 
   if (isError) {
-    return <p>error</p>;
+    return <center mt="50px">Error loading application.</center>;
   }
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <center mt="50px">Loading application...</center>;
   }
 
   return (

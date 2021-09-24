@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-const { path } = require("path");
 const cp = require("child_process");
 
 function createWindow() {
@@ -10,10 +9,9 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+
   win.setMenuBarVisibility(false);
   cp.exec("python app.py", { cwd: "/api" });
-
-  //load the index.html from a url
   win.loadURL("http://localhost:3000");
 }
 
