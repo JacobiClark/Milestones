@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Center } from "@chakra-ui/react";
 
 import "./App.css";
 
@@ -29,8 +29,8 @@ function App() {
     setcompletionDateData(mappeds);
   };
 
-  const handleSubmit = () => {
-    const post = {};
+  const handleDownload = () => {
+    const selectedMilestonePost = {};
     const selectedMilestones = milestoneData.filter(
       (milestone) => milestone.isSelected === true
     );
@@ -38,7 +38,9 @@ function App() {
     for (let i = 0; i < selectedMilestones.length; i++) {
       formattedSelectedMilestones[i] = selectedMilestones[i].milestone;
     }
-    post["Selected milestone(s)"] = formattedSelectedMilestones;
+    selectedMilestonePost[
+      "Selected milestone(s)"
+    ] = formattedSelectedMilestones;
     const selectedCompletionDates = completionDateData.filter(
       (completionDate) => completionDate.isSelected === true
     );
@@ -46,14 +48,16 @@ function App() {
     for (let i = 0; i < selectedCompletionDates.length; i++) {
       formattedCompletionDates[i] = selectedCompletionDates[i].completionDate;
     }
-    post["Selected Completion Date"] = formattedCompletionDates;
+    selectedMilestonePost[
+      "Selected Completion Date"
+    ] = formattedCompletionDates;
     console.log("post initiated");
     fetch("http://localhost:5000/milestones", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(post),
+      body: JSON.stringify(selectedMilestonePost),
     }).then((res) => res.json());
   };
 
@@ -103,31 +107,47 @@ function App() {
 
   return (
     <Box>
-      <Flex>
-        {milestoneData.map((milestone) => (
-          <Button
-            value={milestone.milestone}
-            onClick={handleMilestoneButtonClick}
-            colorScheme={milestone.isSelected === true ? "teal" : "facebook"}
-          >
-            {milestone.milestone}
-          </Button>
-        ))}
-      </Flex>
-      <Flex>
-        {completionDateData.map((completionDate) => (
-          <Button
-            value={completionDate.completionDate}
-            onClick={handleCompletionDateButtonClick}
-            colorScheme={
-              completionDate.isSelected === true ? "teal" : "facebook"
-            }
-          >
-            {completionDate.completionDate}
-          </Button>
-        ))}
-      </Flex>
-      <Button onClick={handleSubmit}>submit</Button>
+      <Box mt="75px">
+        <Text fontSize="large" align={["center", "left"]}>
+          Please select the milestone(s) you would like to download
+        </Text>
+        <Flex wrap="wrap" mt="10px" justify={["center", "flex-start"]}>
+          {milestoneData.map((milestone) => (
+            <Button
+              m="5px"
+              value={milestone.milestone}
+              onClick={handleMilestoneButtonClick}
+              colorScheme={milestone.isSelected === true ? "teal" : "facebook"}
+            >
+              {milestone.milestone}
+            </Button>
+          ))}
+        </Flex>
+      </Box>
+      <Box mt="25px">
+        <Text fontSize="large" align={["center", "left"]}>
+          Please select the completion date you would like to download
+        </Text>
+        <Flex wrap="wrap" mt="10px" justify={["center", "flex-start"]}>
+          {completionDateData.map((completionDate) => (
+            <Button
+              m="5px"
+              value={completionDate.completionDate}
+              onClick={handleCompletionDateButtonClick}
+              colorScheme={
+                completionDate.isSelected === true ? "teal" : "facebook"
+              }
+            >
+              {completionDate.completionDate}
+            </Button>
+          ))}
+        </Flex>
+      </Box>
+      <Center mt="75px">
+        <Button onClick={handleDownload} colorScheme="facebook">
+          Download
+        </Button>
+      </Center>
     </Box>
   );
 }

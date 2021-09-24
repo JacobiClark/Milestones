@@ -17,3 +17,6 @@ def upload_milestones():
         pd.DataFrame.from_dict(content).to_excel("my_selected_milestones.xlsx", index=False)
         return content
 
+if __name__ == "__main__":
+    app.run()
+

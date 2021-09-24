@@ -3,13 +3,17 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 import theme from "./theme";
+import Banner from "./components/Banner";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <App />
+      <Container maxW="container.lg" pl="2%" pr="2%">
+        <Banner />
+        <App />
+      </Container>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")
