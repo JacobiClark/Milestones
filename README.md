@@ -20,7 +20,7 @@ npm run start
 
 ## Usage
 
-![Milestone Selecter](https://imgur.com/a/OCPihxG)
+![Milestone Selecter]("https://imgur.com/a/OCPihxG")
 
 ## Contributing
 
