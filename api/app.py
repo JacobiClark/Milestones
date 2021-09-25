@@ -2,6 +2,9 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS #comment this on deployment
 import pandas as pd
+import os
+import platform
+import subprocess
 
 app = Flask(__name__)
 CORS(app) #comment this on deployment
@@ -9,6 +12,12 @@ CORS(app) #comment this on deployment
 @app.route("/milestones", methods = ['GET', 'POST'])
 def upload_milestones():
     if request.method == 'GET':
+        if platform.system() == "Windows":
+            subprocess.Popen(r'explorer /select,' + str('C:/Users/'))
+        elif platform.system() == "Darwin":
+            subprocess.Popen(["open", 'C:/Users/'])
+        else:
+            subprocess.Popen(["xdg-open", 'C:/Users/'])
         milestones = pd.read_excel('milestones.xlsx').to_json()
         return milestones
     

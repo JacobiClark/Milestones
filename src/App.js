@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Flex, Text, Center } from "@chakra-ui/react";
 
+import readXlsxFile from "read-excel-file";
+
 import "./App.css";
 
 function App() {
@@ -8,6 +10,18 @@ function App() {
   const [completionDateData, setcompletionDateData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [isSelected, setIsSelected] = useState(false);
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    readXlsxFile(event.target.files[0]).then((rows) => {
+      console.log(rows);
+    });
+    setIsSelected(true);
+  };
+
+  const handleSubmission = () => {};
 
   const handleMilestoneButtonClick = (e) => {
     e.preventDefault();
@@ -158,6 +172,27 @@ function App() {
           Download
         </Button>
       </Center>
+      <div>
+        <input type="file" name="file" onChange={changeHandler} />
+        {isSelected ? (
+          <div>
+            <p>Filename: {selectedFile.name}</p>
+            <p>Filetype: {selectedFile.type}</p>
+            <p>Size in bytes: {selectedFile.size}</p>
+            <p>
+              lastModifiedDate:{" "}
+              {selectedFile.lastModifiedDate.toLocaleDateString()}
+            </p>
+            <p>foo</p>
+            <p>{JSON.stringify(selectedFile)}</p>
+          </div>
+        ) : (
+          <p>Select a file to show details</p>
+        )}
+        <div>
+          <button onClick={handleSubmission}>Submit</button>
+        </div>
+      </div>
     </Box>
   );
 }
