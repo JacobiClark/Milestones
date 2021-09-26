@@ -2,7 +2,7 @@
   "name": "miles",
   "version": "0.1.0",
   "private": true,
-  "main": "public/main.js",
+  "main": "main.js",
   "dependencies": {
     "@chakra-ui/react": "^1.6.8",
     "@emotion/react": "^11.4.1",

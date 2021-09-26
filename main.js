@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-const cp = require("child_process");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -10,8 +9,19 @@ function createWindow() {
     },
   });
 
-  win.setMenuBarVisibility(false);
-  cp.exec("python app.py", { cwd: "/api" });
+  var python = require("child_process").spawn("python", ["./api/app.py"]);
+  python.stdout.on("data", function (data) {
+    console.log("Python response: ", data.toString("utf8"));
+  });
+
+  python.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  python.on("close", (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
   win.loadURL("http://localhost:3000");
 }
 
