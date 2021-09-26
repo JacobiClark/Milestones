@@ -10,6 +10,7 @@ function createWindow() {
   });
 
   var python = require("child_process").spawn("python", ["./api/app.py"]);
+
   python.stdout.on("data", function (data) {
     console.log("Python response: ", data.toString("utf8"));
   });

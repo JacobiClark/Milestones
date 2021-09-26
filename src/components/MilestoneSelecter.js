@@ -49,7 +49,7 @@ function MilestoneSelecter(props) {
       setIsLoading(false);
     };
     fetchData();
-  }, []);
+  }, [props.selectedFile]);
 
   const handleMilestoneButtonClick = (e) => {
     e.preventDefault();
@@ -110,10 +110,17 @@ function MilestoneSelecter(props) {
         console.log(res);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("error" + error);
       });
   };
-  console.log(props.selectedFile);
+
+  if (isError) {
+    return <Center mt="50px">Error loading application.</Center>;
+  }
+
+  if (isLoading) {
+    return <Center mt="50px">Loading application...</Center>;
+  }
   return (
     <Box>
       <Box mt="75px">

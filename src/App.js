@@ -1,36 +1,37 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Flex, Text, Center } from "@chakra-ui/react";
-
-import readXlsxFile from "read-excel-file";
-
-import "./App.css";
 import MilestoneSelecter from "./components/MilestoneSelecter";
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState();
-  const [isSelected, setIsSelected] = useState(false);
+  const [selectedFile, setSelectedFile] = useState("");
 
-  const changeHandler = (event) => {
+  const handleFileSelect = (event) => {
     console.log(event.target.files[0].path);
     setSelectedFile(event.target.files[0].path);
-    setIsSelected(true);
+  };
+
+  const removeSelectedFile = () => {
+    setSelectedFile("");
   };
 
   const handleSubmission = () => {};
 
-  if (!isSelected) {
+  if (!selectedFile) {
     return (
       <Center>
+        <input type="file" name="file" onChange={handleFileSelect} />
         <div>
-          <input type="file" name="file" onChange={changeHandler} />
-          <div>
-            <button onClick={handleSubmission}>Submit</button>
-          </div>
+          <button onClick={handleSubmission}>Submit</button>
         </div>
       </Center>
     );
   }
-  return <MilestoneSelecter selectedFile={selectedFile} />;
+  return (
+    <Box>
+      <MilestoneSelecter selectedFile={selectedFile} />
+      <Button onClick={removeSelectedFile} />
+    </Box>
+  );
 }
 
 export default App;
