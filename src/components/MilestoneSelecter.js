@@ -37,6 +37,7 @@ function MilestoneSelecter(props) {
   };
 
   const handleDownload = () => {
+    setIsDownloaded(false);
     //Create obj which will contain post data
     const selectedMilestonePost = {};
     const selectedMilestones = milestoneData.filter(
@@ -72,15 +73,17 @@ function MilestoneSelecter(props) {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         setIsDownloaded(true);
       })
       .catch((error) => {
-        console.error("error" + error);
+        console.log(error);
+        setIsError(true);
       });
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const retrievemilestones = async () => {
       setIsLoading(true);
       //Make fetch request to back-end
       try {
@@ -95,6 +98,7 @@ function MilestoneSelecter(props) {
           }
         );
         const responseJson = await response.json();
+        console.log(responseJson);
         let milestoneValues = Object.values(responseJson.Milestone);
         milestoneValues = milestoneValues.map((milestone) => {
           let milestoneObj = {
@@ -120,7 +124,7 @@ function MilestoneSelecter(props) {
       }
       setIsLoading(false);
     };
-    fetchData();
+    retrievemilestones();
   }, [props.selectedFile]);
 
   if (isError) {
@@ -174,15 +178,18 @@ function MilestoneSelecter(props) {
         </Button>
       </Center>
       {isDownloaded && (
-        <Alert
-          mt="15px"
-          status="success"
-          justifyContent="center"
-          textAlign="center"
-        >
-          <AlertIcon />
-          Your selected milestones were successfully downloaded!
-        </Alert>
+        <Center>
+          <Alert
+            w="600px"
+            mt="15px"
+            status="success"
+            justifyContent="center"
+            textAlign="center"
+          >
+            <AlertIcon />
+            Your selected milestones were successfully downloaded!
+          </Alert>
+        </Center>
       )}
     </Box>
   );
