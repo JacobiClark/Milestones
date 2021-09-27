@@ -7,7 +7,7 @@ import platform
 import subprocess
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True) #comment this on deployment
+CORS(app) #comment this on deployment
 
 
 
