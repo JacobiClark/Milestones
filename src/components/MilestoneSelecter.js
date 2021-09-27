@@ -7,50 +7,6 @@ function MilestoneSelecter(props) {
   const [milestoneData, setMilestoneData] = useState([]);
   const [completionDateData, setcompletionDateData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      //Make fetch request to back-end
-      try {
-        const response = await fetch(
-          "http://localhost:5000/retrievemilestones",
-          {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ filePath: props.selectedFile }),
-          }
-        );
-        const responseJson = await response.json();
-        let milestoneValues = Object.values(responseJson.Milestone);
-        milestoneValues = milestoneValues.map((milestone) => {
-          let milestoneObj = {
-            milestone: milestone,
-            isSelected: false,
-          };
-          return milestoneObj;
-        });
-        setMilestoneData(milestoneValues);
-        let completionDateValues = Object.values(
-          responseJson["Completion date"]
-        );
-        completionDateValues = completionDateValues.map((completionDate) => {
-          let completionDateObj = {
-            completionDate: completionDate,
-            isSelected: false,
-          };
-          return completionDateObj;
-        });
-        setcompletionDateData(completionDateValues);
-      } catch (error) {
-        setIsError(true);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [props.selectedFile]);
-
   const handleMilestoneButtonClick = (e) => {
     e.preventDefault();
     let updatedMilestones = milestoneData.map((milestone) => {
@@ -114,12 +70,56 @@ function MilestoneSelecter(props) {
       });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      //Make fetch request to back-end
+      try {
+        const response = await fetch(
+          "http://localhost:5000/retrievemilestones",
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ filePath: props.selectedFile }),
+          }
+        );
+        const responseJson = await response.json();
+        let milestoneValues = Object.values(responseJson.Milestone);
+        milestoneValues = milestoneValues.map((milestone) => {
+          let milestoneObj = {
+            milestone: milestone,
+            isSelected: false,
+          };
+          return milestoneObj;
+        });
+        setMilestoneData(milestoneValues);
+        let completionDateValues = Object.values(
+          responseJson["Completion date"]
+        );
+        completionDateValues = completionDateValues.map((completionDate) => {
+          let completionDateObj = {
+            completionDate: completionDate,
+            isSelected: false,
+          };
+          return completionDateObj;
+        });
+        setcompletionDateData(completionDateValues);
+      } catch (error) {
+        setIsError(true);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [props.selectedFile]);
+
   if (isError) {
     return <Center mt="50px">Error loading application.</Center>;
   }
 
   if (isLoading) {
-    return <Center mt="50px">Loading application...</Center>;
+    return <Center mt="50px">Importing your Excel data...</Center>;
   }
   return (
     <Box>

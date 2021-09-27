@@ -10,6 +10,10 @@ Use Node Package Manager to install the application's dependencies.
 npm install
 ```
 
+```bash
+pip install -r requirements.txt
+```
+
 ## Running the application
 
 After running the start command, the development server is started, an instance of the desktop application is created by Electron, and the Flask back-end is ran.

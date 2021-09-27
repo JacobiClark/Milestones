@@ -6,13 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, Container } from "@chakra-ui/react";
 import theme from "./theme";
 import Banner from "./components/Banner";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <Container maxW="container.lg" pl="2%" pr="2%">
         <Banner />
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </Container>
     </ChakraProvider>
   </React.StrictMode>,
