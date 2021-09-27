@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-function MilestoneSelecter(props) {
+function MilestoneSelector(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
@@ -195,4 +195,4 @@ function MilestoneSelecter(props) {
   );
 }
 
-export default MilestoneSelecter;
+export default MilestoneSelector;

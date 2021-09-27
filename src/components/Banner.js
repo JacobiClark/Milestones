@@ -5,7 +5,7 @@ function Banner() {
     <Box>
       <Center mt="10px">
         <Text fontSize="2xl" align="center">
-          Welcome to Milestone Selecter
+          Welcome to Milestone Selector
         </Text>
       </Center>
       <Center>

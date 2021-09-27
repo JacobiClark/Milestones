@@ -1,10 +1,10 @@
-import FileSelecter from "./components/FileSelecter";
+import FileSelector from "./components/FileSelector";
 import { Route, Switch } from "react-router-dom";
 
 function App() {
   return (
     <Switch>
-      <Route exact path="/" component={FileSelecter} />
+      <Route exact path="/" component={FileSelector} />
     </Switch>
   );
 }

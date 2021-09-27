@@ -1,8 +1,8 @@
 import { Center, Box, Button, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import MilestoneSelecter from "./MilestoneSelecter";
+import MilestoneSelector from "./MilestoneSelector";
 
-function FileSelecter() {
+function FileSelector() {
   const [selectedFile, setSelectedFile] = useState("");
 
   const handleFileSelect = (event) => {
@@ -36,7 +36,7 @@ function FileSelecter() {
   }
   return (
     <Box>
-      <MilestoneSelecter selectedFile={selectedFile} />
+      <MilestoneSelector selectedFile={selectedFile} />
       <Center>
         <Button mt="35px" onClick={removeSelectedFile}>
           Import New File
@@ -46,4 +46,4 @@ function FileSelecter() {
   );
 }
 
-export default FileSelecter;
+export default FileSelector;
