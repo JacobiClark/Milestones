@@ -34,12 +34,6 @@ Move back to the main directory:
 cd ..
 ```
 
-Run Electron:
-
-```bash
-npm run start
-```
-
 ## Running the application
 
 After running the start command, the development server is started, an instance of the desktop application is created by Electron, and the Flask back-end is ran.

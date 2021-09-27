@@ -8,18 +8,21 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+  win.setMenuBarVisibility(false);
 
-  var python = require("child_process").spawn("python", ["./api/app.py"]);
+  const back_end_spawn = require("child_process").spawn("python", [
+    "./api/app.py",
+  ]);
 
-  python.stdout.on("data", function (data) {
+  back_end_spawn.stdout.on("data", function (data) {
     console.log("Python response: ", data.toString("utf8"));
   });
 
-  python.stderr.on("data", (data) => {
+  back_end_spawn.stderr.on("data", (data) => {
     console.error(`stderr: ${data}`);
   });
 
-  python.on("close", (code) => {
+  back_end_spawn.on("close", (code) => {
     console.log(`child process exited with code ${code}`);
   });
 
