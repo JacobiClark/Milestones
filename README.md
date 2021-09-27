@@ -42,7 +42,7 @@ After running the start command, the development server is started, an instance 
 npm run start
 ```
 
-## Using Milestone Selecter
+## Using Milestone Selector
 
 ![Milestone Selecter](https://i.imgur.com/LVKE4eY.jpg)
 
