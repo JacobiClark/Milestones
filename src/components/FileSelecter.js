@@ -38,7 +38,7 @@ function FileSelecter() {
     <Box>
       <MilestoneSelecter selectedFile={selectedFile} />
       <Center>
-        <Button mt="30px" onClick={removeSelectedFile}>
+        <Button mt="35px" onClick={removeSelectedFile}>
           Import New File
         </Button>
       </Center>

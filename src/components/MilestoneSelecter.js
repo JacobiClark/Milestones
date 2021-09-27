@@ -1,9 +1,18 @@
-import { Center, Text, Box, Flex, Button } from "@chakra-ui/react";
+import {
+  Center,
+  Text,
+  Box,
+  Flex,
+  Button,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
 function MilestoneSelecter(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isDownloaded, setIsDownloaded] = useState(false);
   const [milestoneData, setMilestoneData] = useState([]);
   const [completionDateData, setcompletionDateData] = useState([]);
 
@@ -63,7 +72,7 @@ function MilestoneSelecter(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        setIsDownloaded(true);
       })
       .catch((error) => {
         console.error("error" + error);
@@ -164,6 +173,17 @@ function MilestoneSelecter(props) {
           Download
         </Button>
       </Center>
+      {isDownloaded && (
+        <Alert
+          mt="15px"
+          status="success"
+          justifyContent="center"
+          textAlign="center"
+        >
+          <AlertIcon />
+          Your selected milestones were successfully downloaded!
+        </Alert>
+      )}
     </Box>
   );
 }
