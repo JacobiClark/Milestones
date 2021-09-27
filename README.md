@@ -1,6 +1,6 @@
 # Milestone Selecter
 
-Milestone Selecter is an application made with React, Electron, and Flask that allows users to download an excel file customized by the user's milestone selections.
+Milestone Selecter is an application made with React, Electron, and Flask that allows users to import a Milestones excel file and then download a selected Milestones excel file customized by the user's milestone selections.
 
 ## Installation
 
