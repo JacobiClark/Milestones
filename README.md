@@ -61,3 +61,9 @@ After handling the logic on the front-end, I read enough of the Electron documen
 Once Electron was working properly, I created a Python virtual environment, installed Flask, and set up the API end-points. To import a file, I sent a POST request to the back-end containing the location of the file the user selected, the back-end extracts the excel file using the file location data sent on the POST reqest, converts it to JSON, and returns the JSON data. When sending a POST request to the back-end, the API consumes the JSON, creates a pandas DataFrame, and then converts the data to excel to be downloaded.
 
 Once the front-end and back-end were complete, the final step was to run the application off of a single command (npm run start). I used the concurrently and wait-on packages which create a promise when the dev-server is started and then runs electron once the promise has been filled. Electron then uses a child-process to spawn the back-end, and then the application is ready for use.
+
+## To-Dos
+
+1. Exit back-end spawn on electron close
+
+2. Edit UI to handle an increase in scale of milestone buttons
