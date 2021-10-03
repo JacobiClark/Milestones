@@ -12,11 +12,11 @@ CORS(app) #comment this on deployment
 
 
 @app.route("/milestones", methods = ['GET', 'POST'])
-
 def download_selected_milestones():        
     if request.method == 'POST':
         selected_milestones = request.json
         pd.DataFrame.from_dict(selected_milestones).to_excel("my_selected_milestones.xlsx", index=False)
+        print('hi from download')
         return selected_milestones
 
 @app.route("/retrievemilestones", methods = ['GET', 'POST'])

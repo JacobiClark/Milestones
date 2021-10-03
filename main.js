@@ -14,8 +14,8 @@ function createWindow() {
     "./api/app.py",
   ]);
 
-  back_end_spawn.stdout.on("data", function (data) {
-    console.log("Python response: ", data.toString("utf8"));
+  back_end_spawn.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
   });
 
   back_end_spawn.stderr.on("data", (data) => {
